@@ -3,15 +3,56 @@
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
+#include <locale.h>
+#include <limits.h>
 
 
 
-int mainprogram() {
+struct  UTFchar {
+
+	int counter;
+	char bytes[4];
+	char *next[];
+	bool flag;
+	char originalhex;
+
+}Unichar;
+
+struct list {
+
+	struct UTFchar Unichar;
+	struct list *next;
+
+}Node;
+
+//this function creates the linked list by initializing the head with init, so init now becomes the head
+void createList(Node *init, UTFchar *unichar) {
+	
+	Node **head = (Node**)malloc(sizeof(struct list));
+
+	init->Unichar = *unichar; 
+
+}
+
+//this functions adds another node to our list
+void addUniChar(Node *current, UTFchar *unichar) {
+
+	current->next = *unichar;
+
+}
+
+
+int program() {
+	
+	//create a structure linked list to connect the bytes together
+	Unichar *formstruct = (Unichar*)malloc((sizeof(struc UTFchar));
+	Node *init = (Node*)malloc((sizeof(struc list));
+	
 
 	int nums[100];
 	int i;
 
-/*	while ((scanf("%d", &nums[i]) == 1)) {
+	while ((scanf("%d", &nums[i]) == 1)) {
 	
 	i++;
 
@@ -21,17 +62,25 @@ int mainprogram() {
 	for (int j=0; j < i; j++) {
 		printf("%d\n", nums[j]);
 	}
-*/
+
+
+
+
+
+
+
+
+// this section will be used to output the characters to the screen
+
+
 	wchar_t string[100];
 	 setlocale(LC_ALL, "");
 
 	 printf ("Enter a string: ");
 	 scanf("%ls", string); 
 
-	 pringf("String Entered: %ls: length: %dn", string, wcsle(string));
-
-
-	return 0;
+	 printf("String Entered: %ls: length: %d\n", string, wcslen(string));
+       	return 0;
 }
 
 
@@ -57,7 +106,7 @@ int main(int argc, char** argv)
 		dprintf(STDERR_FILENO, "Starting program...\n");
 	}
 
-	result = mainprogram();
+	result = program();
 	return result;
 
 }
