@@ -62,7 +62,7 @@ int program() { //this is the function that will do almost all of the work
 	struct UTFchar *list;
 	long long counter = 1;
 	int bytecount; 
-	struct UTFchar *head = (struct UTFchar *)(malloc(BIG_NUMBER));
+	struct UTFchar *head = (struct UTFchar *)(malloc(sizeof(head)*BIG_NUMBER));
 
 
 	//create a dynamically sized array of Unichars using malloc with BIGNUM
@@ -111,6 +111,7 @@ int program() { //this is the function that will do almost all of the work
 		headcopy->counter += 1;
 		headcopy->bytescount = 4;
 		flag = 1;
+	//	++counter;
 		break;
 		}
 	
@@ -122,6 +123,7 @@ int program() { //this is the function that will do almost all of the work
 		headcopy->counter += 1;
 		headcopy->bytescount = 3;
 		flag = 1;
+	//	++counter;
 		break;
 		}
 
@@ -131,6 +133,7 @@ int program() { //this is the function that will do almost all of the work
 		headcopy->counter += 1;
 		headcopy->bytescount = 2;
 		flag = 1;
+	//	++counter;
 		break;
 		}
 
@@ -139,6 +142,7 @@ int program() { //this is the function that will do almost all of the work
 		headcopy->counter += 1;
 		headcopy->bytescount = 1;
 		flag = 1;
+	//	++counter; //rm these?
 		break;
 		}
 		
@@ -151,8 +155,8 @@ int program() { //this is the function that will do almost all of the work
 
 	//this will insert character into array if it does not previously exist
 	if (flag == 0) { //flag will still be zero if the node hasnt been found, this will create a new node in array
-		struct UTFchar *temp = (struct UTFchar *)(malloc(BIG_NUMBER));
-		temp = headcopy+counter;
+		struct UTFchar *temp = (struct UTFchar *)(malloc(sizeof(temp)*BIG_NUMBER));
+		temp = headcopy; //+counter?
 		if (bytecount == 4) {
 		temp->bytes1 = onebyte;
 		temp->bytes2 = twobyte;
@@ -160,6 +164,7 @@ int program() { //this is the function that will do almost all of the work
 		temp->bytes4 = fourbyte;
 		temp->bytescount = 4;
 		temp->counter += 1;
+	//	++counter;
 		}
 
 		else if (bytecount == 3) {
@@ -168,6 +173,7 @@ int program() { //this is the function that will do almost all of the work
 		temp->bytes3 = threebyte;
 		temp->bytescount = 3;
 		temp->counter += 1;
+	//	++counter;
 		}
 
 		else if (bytecount == 2) {
@@ -175,17 +181,19 @@ int program() { //this is the function that will do almost all of the work
 		temp->bytes2 = twobyte;
 		temp->bytescount = 2;
 		temp->counter += 1;
+	//	++counter;
 		}
 	
-		else if (bytecount == 1) {
+		else  {
 		temp->bytes1 = onebyte;
 		temp->bytescount = 1;
 		temp->counter += 1;
+	//	++counter;
 		}
 
-		else {
-		break; //this will cover the empty file case
-		}
+	//	else { //do i need this?
+	//	break; //this will cover the empty file case
+	//	}
 	}
 	
 		//increment onebyte to the next byte in the input file
@@ -196,7 +204,7 @@ int program() { //this is the function that will do almost all of the work
 
 	//we have now read in all the characters now we need to sort and output
 	
-	sortinput(list, counter);
+//	sortinput(list, counter);
 	printinput(list, counter);
 	
 	return 0;
