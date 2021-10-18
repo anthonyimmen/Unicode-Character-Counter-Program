@@ -122,6 +122,7 @@ int program() { //this is the function that will do almost all of the work
 	int i = 0; 
 	int flag = 0; //used to denote if the character exists
 	struct UTFchar *headcopy = (struct UTFchar *)(malloc(BIG_NUMBER));
+	memset(headcopy, 0, sizeof(headcopy));
 	headcopy = head;
 
 	while(i < counter) { //will scan through the array to see if a node already exists and compares current character bytes with every UTFchar inside of array the while loop breaks when 'i' has exceed how many characters we have read.  
