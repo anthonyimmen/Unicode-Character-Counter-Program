@@ -86,11 +86,11 @@ int program() { //this is the function that will do almost all of the work
 	struct UTFchar *list;
 	long long counter = 1;
 	int bytecount; 
-	struct UTFchar *head = (struct UTFchar *)(malloc(sizeof(head)*BIG_NUMBER));
+	struct UTFchar *head = (malloc(sizeof(head)*BIG_NUMBER));
 	memset(head, 0, sizeof(BIG_NUMBER));
 
 	//create a dynamically sized array of Unichars using malloc with BIGNUM
-	list = (struct UTFchar *)(malloc(sizeof(list)*BIG_NUMBER)); 
+	list = (malloc(sizeof(list)*BIG_NUMBER)); 
 	memset(list, 0, sizeof(BIG_NUMBER));
 	head = list;
 
@@ -121,7 +121,7 @@ int program() { //this is the function that will do almost all of the work
 	
 	int i = 0; 
 	int flag = 0; //used to denote if the character exists
-	struct UTFchar *headcopy = (struct UTFchar *)(malloc(BIG_NUMBER));
+	struct UTFchar *headcopy = (malloc(BIG_NUMBER));
 	memset(headcopy, 0, sizeof(BIG_NUMBER));
 	headcopy = head;
 
@@ -175,7 +175,7 @@ int program() { //this is the function that will do almost all of the work
 
 	//this will insert character into array if it does not previously exist
 	if (flag == 0) { //flag will still be zero if the node hasnt been found, this will create a new node in array
-		struct UTFchar *temp = (struct UTFchar *)(malloc(sizeof(temp)*BIG_NUMBER));
+		struct UTFchar *temp = (malloc(sizeof(temp)*BIG_NUMBER));
 		memset(temp, 0, sizeof(BIG_NUMBER));
 		temp = headcopy; 
 		if (bytecount == 4) {
