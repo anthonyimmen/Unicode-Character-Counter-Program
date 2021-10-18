@@ -20,11 +20,15 @@ struct  UTFchar {
 
 }Unichar;
 
-void sortinput(struct UTFchar *list, long long counter) { //this function will sort the current array indescending order
+void sortinput(struct UTFchar *list, long long counter) { //this function will sort the current array indescending order	
+//	counter = counter * 2;
+
 	struct UTFchar *temp = list;
 	for (int i = 0; i < counter; i++) {
+		
 		struct UTFchar *tempi = list+i;
-		for (int j = i + 1; j < counter; ++j) {
+		for (int j = i + 1; j < counter; j++) {
+			
 			struct UTFchar *tempj = list+j;
 			if (tempi->counter < tempj->counter) { //does this include char of same count rightnext toeachother
 				temp = list+i;
@@ -63,13 +67,11 @@ int program() {
 	long long counter = 1;
 	int bytecount; 
 	struct UTFchar *head = (struct UTFchar *)(malloc(BIG_BOY));
-	printf("you made it not really\n");
 	//create a dynamically sized array of Unichars using malloc
 	list = (struct UTFchar *)(malloc(BIG_BOY));
 	head = list;
 	//need to read in first character from file
 	tempbyte = fgetc(stdin); //read in first byte of the file
-	printf("past malloc, still not good\n");
         //this loop will scan in the rest of the bytes associtated with the current character
 	while (tempbyte != EOF) {
 		onebyte = tempbyte;
@@ -91,14 +93,14 @@ int program() {
 	else { //this is ASCII
 		bytecount = 1;
 	} 
-	printf("past first byte ig \n");
+	
 	//need to scan through array and find where the current character is 
 	
 	int i = 0;
 	int flag = 0;
 	struct UTFchar *headcopy = (struct UTFchar *)(malloc(BIG_BOY));
 	headcopy = head;
-	printf("past init head");
+
 	while(i < counter) { //will scan through the array to see if a node already exists
 	//need to compare current character bytes with every UTFchar inside of array
 		if ((bytecount == 4) && (onebyte == headcopy->bytes1) && (twobyte == headcopy->bytes2) && 
@@ -111,7 +113,7 @@ int program() {
 		headcopy->bytescount = 4;
 		flag = 1;
 		break;
-		printf("past 4 byte");
+		
 		}
 	
 		else if ((bytecount == 3) && (onebyte == headcopy->bytes1) && (twobyte == headcopy->bytes2) && 
@@ -147,7 +149,7 @@ int program() {
 		++i;
 		}	
 	}
-	printf("past 2nd while whooo\n");
+	
 	if (flag == 0) { //flag will still be zero if the node hasnt been found, this will create a new node in array
 		struct UTFchar *temp = (struct UTFchar *)(malloc(BIG_BOY));
 		temp = headcopy+counter;
@@ -185,11 +187,11 @@ int program() {
 		break; //this will cover the empty file case
 		}
 	}
-	printf("fully assigned first variable\n");
+	
 	//	increment onebyte to the next byte in the input file
 		tempbyte = fgetc(stdin);
 		++counter;
-	printf("you made first round\n");
+	
 	}
 
 	//we have now read in all the characters now we need to sort and output
