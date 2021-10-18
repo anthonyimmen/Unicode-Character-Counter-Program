@@ -68,7 +68,7 @@ void printinput(struct UTFchar *list, long long counter) { //this function will 
 		unicodebytes[2] = tempi->bytes3;
 		unicodebytes[3] = tempi->bytes4;
 	unsigned char *unicodestr = &unicodebytes[0];
-		if (tempi->counter != 0) {
+		if (tempi->counter >= 1) {
 		printf("%s->%llu\n", unicodestr, tempi->counter);
 		}
 	}
