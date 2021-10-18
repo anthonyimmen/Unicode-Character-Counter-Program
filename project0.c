@@ -7,9 +7,9 @@
 #include <limits.h>
 #include <stdbool.h>
 
-#define BIG_BOY 1112064 //that's one big boy
+#define BIG_NUMBER 1112064 //macro used for malloc
 
-struct  UTFchar {
+struct  UTFchar { //my structure that is used for each character
 
 	long long counter;
 	unsigned char bytes1;
@@ -21,16 +21,12 @@ struct  UTFchar {
 }Unichar;
 
 void sortinput(struct UTFchar *list, long long counter) { //this function will sort the current array indescending order	
-//	counter = counter * 2;
-
 	struct UTFchar *temp = list;
-	for (int i = 0; i < counter; i++) {
-		
+	for (int i = 0; i < counter; i++) {	
 		struct UTFchar *tempi = list+i;
 		for (int j = i + 1; j < counter; j++) {
-			
 			struct UTFchar *tempj = list+j;
-			if (tempi->counter < tempj->counter) { //does this include char of same count rightnext toeachother
+			if (tempi->counter < tempj->counter) { //this includes char of same count right next to each other
 				temp = list+i;
 				tempi = (list+j);
 				tempj = temp;
@@ -56,7 +52,7 @@ void printinput(struct UTFchar *list, long long counter) { //this function will 
 }
 
 
-int program() {
+int program() { //this is the function that will do almost all of the work 
 
 	char tempbyte;	
 	unsigned char onebyte;
@@ -66,12 +62,16 @@ int program() {
 	struct UTFchar *list;
 	long long counter = 1;
 	int bytecount; 
-	struct UTFchar *head = (struct UTFchar *)(malloc(BIG_BOY));
-	//create a dynamically sized array of Unichars using malloc
-	list = (struct UTFchar *)(malloc(BIG_BOY));
+	struct UTFchar *head = (struct UTFchar *)(malloc(BIG_NUMBER));
+
+
+	//create a dynamically sized array of Unichars using malloc with BIGNUM
+	list = (struct UTFchar *)(malloc(sizeof(list)*BIG_NUMBER)); 
 	head = list;
-	//need to read in first character from file
-	tempbyte = fgetc(stdin); //read in first byte of the file
+
+	//reads in first character from file
+	tempbyte = fgetc(stdin); 
+
         //this loop will scan in the rest of the bytes associtated with the current character
 	while (tempbyte != EOF) {
 		onebyte = tempbyte;
@@ -94,15 +94,14 @@ int program() {
 		bytecount = 1;
 	} 
 	
-	//need to scan through array and find where the current character is 
 	
-	int i = 0;
-	int flag = 0;
-	struct UTFchar *headcopy = (struct UTFchar *)(malloc(BIG_BOY));
+	
+	int i = 0; 
+	int flag = 0; //used to denote if the character exists
+	struct UTFchar *headcopy = (struct UTFchar *)(malloc(BIG_NUMBER));
 	headcopy = head;
 
-	while(i < counter) { //will scan through the array to see if a node already exists
-	//need to compare current character bytes with every UTFchar inside of array
+	while(i < counter) { //will scan through the array to see if a node already exists and compares current character bytes with every UTFchar inside of array the while loop breaks when 'i' has exceed how many characters we have read.  
 		if ((bytecount == 4) && (onebyte == headcopy->bytes1) && (twobyte == headcopy->bytes2) && 
 		(threebyte == headcopy->bytes3) && (fourbyte == headcopy->bytes4)) {
 		headcopy->bytes1 = onebyte;
@@ -113,7 +112,6 @@ int program() {
 		headcopy->bytescount = 4;
 		flag = 1;
 		break;
-		
 		}
 	
 		else if ((bytecount == 3) && (onebyte == headcopy->bytes1) && (twobyte == headcopy->bytes2) && 
@@ -150,8 +148,10 @@ int program() {
 		}	
 	}
 	
+
+	//this will insert character into array if it does not previously exist
 	if (flag == 0) { //flag will still be zero if the node hasnt been found, this will create a new node in array
-		struct UTFchar *temp = (struct UTFchar *)(malloc(BIG_BOY));
+		struct UTFchar *temp = (struct UTFchar *)(malloc(BIG_NUMBER));
 		temp = headcopy+counter;
 		if (bytecount == 4) {
 		temp->bytes1 = onebyte;
@@ -188,7 +188,7 @@ int program() {
 		}
 	}
 	
-	//	increment onebyte to the next byte in the input file
+		//increment onebyte to the next byte in the input file
 		tempbyte = fgetc(stdin);
 		++counter;
 	
@@ -207,16 +207,6 @@ int main(int argc, char** argv)
 {
 
 	int result;
-
-	//error check
-	if (argc > 1) {
-		dprintf(STDERR_FILENO, "Usage: %s <n>\n", argv[0]);
-		exit(0);
-	}
-	else {
-		dprintf(STDERR_FILENO, "Starting program...\n");
-	}
-
 	result = program();
 	return result;
 
