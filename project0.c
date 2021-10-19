@@ -60,6 +60,7 @@ struct UTFchar * sortinput(struct UTFchar *list, long long counter) { //this fun
 
 void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format
 	struct UTFchar *tempi;
+	printf("this is counter: %llu\n", counter);
 	for (int i = 0; i < counter; ++i) {
 	tempi = list+i;
 	unsigned char unicodebytes[4];
@@ -208,11 +209,13 @@ int program() { //this is the function that will do almost all of the work
 		temp->counter += 1;
 		}
 
+	++counter;
+
 	}
 	
 		//increment onebyte to the next byte in the input file
 		tempbyte = fgetc(stdin);
-		++counter;
+		
 	
 	}
 
