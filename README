@@ -6,21 +6,19 @@ Libraries used: stdio.h, stdlib.h, string.h, unistd.h, wchar.h, locale.h, limits
 
 Code summary:
 
-This project's goal is to read in a file, count how many times each character has appeared, output each character and the amount of times int has appeared in a descending sorted order. My project is able to do so by reading each character byte by byte, scan to see if the current character has already been added into the array, which holds all of the characters that have been read. Then add the current character into a new slot if it is a new character, or update the counter of the character if it has already been added in. My code runs in O(n^2) because I read in all the characters once, the go back through the characters another time to sort, insert, and print. 
+This project's goal is to read in a file, count how many times each character has appeared, output each character and the amount of times it has appeared in a descending sorted order. My project is able to do so by reading each character byte by byte, scanning to see if the current character has already been added into the array, which holds all of the characters that have been read, then adding the current character into a new slot if it is a new character, and updating the counter of the current character. My code runs in O(n^2) because I read in all the characters once, the go back through the characters another time to sort, insert, and print. 
 
-Currently the code is imcomplete. The code does not output the all the characters sorted, it also has an issue with the counter, in the printinput(), which causes the program to output to many whitespace characters and not enough regular characters. I am currently working on a fix for both of those issues. I believe that these bugs may stem from a while loop inside the program() function.
+There is currently one known bugs in my code that I made work-arounds for. The bug is that during the output before my correct output "->0" this is outputted to the console. This is not correct, and I was unsure why it was occuring after analyzing my code throughly. In order to make it working correctly, I created a check in the print function that checks if the counter variable in the current stuct != 0. Thus, by including that peice of code I was able to skip that line and have a correct output. 
 
 Brief description of functions:
 
-sortinput() - this function is used to sort the structUTFchar array in descending order, currently there are some issues with the sorting aspect.
+compf() - this function is used as a comparator function for qsort. It is passed into qsort to compare. If b is greater than a, then we return a positive number, and if its not then we return a negative number.
 
 printinput() - this function is used to print all the inputed characters in the format 'character' -> 'number of appearances'
 
-program() - this is the main file of the program and is used to handle much of the heacy lifting. i.e. reading in the bytes, byte by byte, inserting the current character into the array, and making sure that the same character is not being inserted multiple times separately. I believe that there is currently a bug that is allowing a character to be inserted multiple time separately. When the code is checking where the current character is within the array to insert, it is using the binary form of the character to do so. It compares each of the bytes of the element in the array to the bytes of the current character. 
-
+program() - this is the main file of the program and is used to handle much of the heacy lifting. i.e. reading in the bytes, byte by byte, inserting the current character into the array, and making sure that the same character is not being inserted multiple times separately. When the code is checking where the current character is within the array to insert, it is using the decimal form of the character bytes to do so. It compares each of the bytes of the element in the array to the bytes of the current character. 
 
 main() - calls the program() function to complete the task.
-
 
 
 

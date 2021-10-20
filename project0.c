@@ -20,7 +20,7 @@ struct  UTFchar { //my structure that is used for each character
 }Unichar;
 
 
-int compf(const void * a, const void * b) {
+int compf(const void * a, const void * b) { //this is my comparison function for quicksort
 
 	long long acount = ((struct UTFchar *)a)->counter;
 	long long bcount = ((struct UTFchar *)b)->counter;
@@ -33,47 +33,10 @@ int compf(const void * a, const void * b) {
 
 }
 
-struct UTFchar * sortinput(struct UTFchar *list, long long counter) { //this function will sort the current array indescending order	
-	struct UTFchar *temp = list;
-	struct UTFchar *tempi;
-	struct UTFchar *tempj;
-	for (int i = 0; i < counter; ++i) {	
-		tempi = list+i;
-		for (int j = i + 1; j < counter; ++j) {
-			tempj = list+j;
-			if (tempi->counter < tempj->counter) { //this includes char of same count right next to each other
-				
-				//this sections swaps the bytes with each, this is done to sort the list. It will not work just by interchanging the structs
-				//flips temp and tempi
-				temp->counter = tempi->counter; 
-				temp->bytes1 = tempi->bytes1;
-				temp->bytes2 = tempi->bytes2;
-				temp->bytes3 = tempi->bytes3;
-				temp->bytes4 = tempi->bytes4;
-				
-				//flips tempi and tempj
-				tempi->counter = tempj->counter;
-				tempi->bytes1 = tempj->bytes1;
-				tempi->bytes2 = tempj->bytes2;
-				tempi->bytes3 = tempj->bytes3;
-				tempi->bytes4 = tempj->bytes4;
-				
-				//flips tempj and temp
-				tempj->counter = temp->counter;
-				tempj->bytes1 = temp->bytes1;
-				tempj->bytes2 = temp->bytes2;
-				tempj->bytes3 = temp->bytes3;
-				tempj->bytes4 = temp->bytes4;
-
-			}	
-		}
-	}
-	return temp;
-}
 
 
 void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format
-//	printf("this is counter: %llu\n", counter);
+
 	for (int i = 0; i < counter; ++i) {
 	unsigned char unicodebytes[4];
 		unicodebytes[0] = list[i].bytes1;
@@ -123,7 +86,7 @@ int program() { //this is the function that will do almost all of the work
 		bytecount = 2;
 		twobyte = (unsigned char)fgetc(stdin);
 	}
-	else { //this is ASCII
+	else { //this is ASCII so sets bytecount to 1
 		bytecount = 1;
 	} 
 	
@@ -131,7 +94,7 @@ int program() { //this is the function that will do almost all of the work
 	int flag = 0; //used to denote if the character exists
 	
 
-	while(i < counter) { //will scan through the array to see if a node already exists and compares current character bytes with every UTFchar inside of array the while loop breaks when 'i' has exceed how many characters we have read.  
+	while(i < counter) { //will scan through the array to see if a node already exists and compares current character bytes with every UTFchar inside of array the while loop breaks when 'i' has exceed how many unique characters we have read.  
 		if ((bytecount == 4) && (onebyte == head[i].bytes1) && (twobyte == head[i].bytes2) && 
 		(threebyte == head[i].bytes3) && (fourbyte == head[i].bytes4)) {
 		head[i].counter += 1;	
@@ -172,7 +135,6 @@ int program() { //this is the function that will do almost all of the work
 		head[i].bytes3 = (unsigned char)threebyte;
 		head[i].bytes4 = (unsigned char)fourbyte;
 		head[i].counter += 1;
-		head[i].location = counter;
 		}
 
 		else if (bytecount == 3) {
@@ -180,20 +142,17 @@ int program() { //this is the function that will do almost all of the work
 		head[i].bytes2 = (unsigned char)twobyte;
 		head[i].bytes3 = (unsigned char)threebyte;
 		head[i].counter += 1;
-		head[i].location = counter;
 		}
 
 		else if (bytecount == 2) {
 		head[i].bytes1 = (unsigned char)onebyte;
 		head[i].bytes2 = (unsigned char)twobyte;
 		head[i].counter += 1;
-		head[i].location = counter;
 		}
 	
 		else  {
 		head[i].bytes1 = (unsigned char)onebyte;
-		head[i].counter += 1;
-		head[i].location = counter;
+		head[i].counter += 1;	
 		}
 
 	++counter;  // we increase the counter only here because it is for every unique variable
@@ -209,9 +168,8 @@ int program() { //this is the function that will do almost all of the work
 
 	//we have now read in all the characters now we need to sort and output
 	
-	qsort(head, counter, sizeof(Unichar), compf);
-//	head = sortinput(head, counter);
-	printinput(head, counter);
+	qsort(head, counter, sizeof(Unichar), compf); //sort the array
+	printinput(head, counter); //print the array
 	
 	return 0;
 }
