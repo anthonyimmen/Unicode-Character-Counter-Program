@@ -15,6 +15,7 @@ struct  UTFchar { //my structure that is used for each character
 	unsigned char bytes2;
 	unsigned char bytes3;
 	unsigned char bytes4;
+	unsigned int location;
 
 }Unichar;
 
@@ -72,7 +73,7 @@ struct UTFchar * sortinput(struct UTFchar *list, long long counter) { //this fun
 
 
 void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format
-	printf("this is counter: %llu\n", counter);
+//	printf("this is counter: %llu\n", counter);
 	for (int i = 0; i < counter; ++i) {
 	unsigned char unicodebytes[4];
 		unicodebytes[0] = list[i].bytes1;
@@ -106,8 +107,9 @@ int program() { //this is the function that will do almost all of the work
 
         //this loop will scan in the rest of the bytes associtated with the current character
 	while (tempbyte != EOF) {
-		onebyte = (unsigned char)tempbyte;
+		onebyte = tempbyte;
 	if (onebyte >= 240) {
+		bytecount = 4;
 		twobyte = (unsigned char)fgetc(stdin);	
 		threebyte = (unsigned char)fgetc(stdin);
 		fourbyte = (unsigned char)fgetc(stdin);
@@ -170,6 +172,7 @@ int program() { //this is the function that will do almost all of the work
 		head[i].bytes3 = (unsigned char)threebyte;
 		head[i].bytes4 = (unsigned char)fourbyte;
 		head[i].counter += 1;
+		head[i].location = counter;
 		}
 
 		else if (bytecount == 3) {
@@ -177,21 +180,25 @@ int program() { //this is the function that will do almost all of the work
 		head[i].bytes2 = (unsigned char)twobyte;
 		head[i].bytes3 = (unsigned char)threebyte;
 		head[i].counter += 1;
+		head[i].location = counter;
 		}
 
 		else if (bytecount == 2) {
 		head[i].bytes1 = (unsigned char)onebyte;
 		head[i].bytes2 = (unsigned char)twobyte;
 		head[i].counter += 1;
+		head[i].location = counter;
 		}
 	
 		else  {
 		head[i].bytes1 = (unsigned char)onebyte;
 		head[i].counter += 1;
+		head[i].location = counter;
 		}
 
-	++counter;
+	++counter;  // we increase the counter only here because it is for every unique variable
 
+	
 	}
 	
 		//increment onebyte to the next byte in the input file
@@ -203,6 +210,7 @@ int program() { //this is the function that will do almost all of the work
 	//we have now read in all the characters now we need to sort and output
 	
 	qsort(head, counter, sizeof(Unichar), compf);
+//	head = sortinput(head, counter);
 	printinput(head, counter);
 	
 	return 0;
