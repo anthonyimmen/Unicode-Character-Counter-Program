@@ -1,6 +1,6 @@
 Anthony Immenschuh
 
-In order to run the code you need to download all of the files into a folder. Open the folder in terminal, enter make clean, make all, then './project0 << testfile'.
+In order to run the code you need to download all of the files into a folder. Open the folder in terminal, enter make clean, make all, then './project0 << test2' or 'cat test2 | ./project0'.
 
 Libraries used: stdio.h, stdlib.h, string.h, unistd.h, wchar.h, locale.h, limits.h, stdbool.h
 
