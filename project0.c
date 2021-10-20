@@ -49,7 +49,7 @@ void printinput(struct UTFchar *list, long long counter) { //this function will 
 		unicodebytes[3] = list[i].bytes4;
 	unsigned char *unicodestr = &unicodebytes[0];
 		if ((list[i].counter >= 1)) { //this check here is used to remove the leading "->0" that would appear at the beginning of my output, this bug is further discussed in the readme.
-		printf("%s->%ll\n", unicodestr, list[i].counter);
+		printf("%s->%llu\n", unicodestr, list[i].counter);
 		}
 	}
 
