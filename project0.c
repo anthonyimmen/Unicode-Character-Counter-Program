@@ -8,25 +8,29 @@
 #include <stdbool.h>
 #define BIG_NUMBER 11112064 //macro used for malloc
 
-struct  UTFchar { //my structure that is used for each character
+struct  UTFchar { //my structure that is used for each character. It contains a counter for each character and an unsigned char for each byte of the character (max of 4 bytes in character)
 
 	long long counter;
 	unsigned char bytes1;
 	unsigned char bytes2;
 	unsigned char bytes3;
 	unsigned char bytes4;
-	unsigned int location;
 
 }Unichar;
 
 
 int compf(const void * a, const void * b) { //this is my comparison function for quicksort
 
+	//in order for the comparator function to work, I need to cast the void variables that are passed into the function to struct UTFchar, because that is the only way I am able to access the counter for each character in order for the comparison to work.
 	long long acount = ((struct UTFchar *)a)->counter;
 	long long bcount = ((struct UTFchar *)b)->counter;
+	
+	//returning a positive number tells qsort() to swap 'a' with 'b's position and 'b' with 'a's position
 	if (bcount > acount) {
 		return 1;
 	}
+	
+	//returning a negative number tells qsort not to execute a swap
 	else {
 		return -1;
 	}
@@ -35,7 +39,7 @@ int compf(const void * a, const void * b) { //this is my comparison function for
 
 
 
-void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format
+void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format by combining all the bytes into an unsigned char array, then assigning the address of the head of the array to an unsigned char * named unicodestr which will allow us to output the character in the correct format.
 
 	for (int i = 0; i < counter; ++i) {
 	unsigned char unicodebytes[4];
@@ -44,8 +48,8 @@ void printinput(struct UTFchar *list, long long counter) { //this function will 
 		unicodebytes[2] = list[i].bytes3;
 		unicodebytes[3] = list[i].bytes4;
 	unsigned char *unicodestr = &unicodebytes[0];
-		if ((list[i].counter >= 1)) {
-		printf("%s->%llu\n", unicodestr, list[i].counter);
+		if ((list[i].counter >= 1)) { //this check here is used to remove the leading "->0" that would appear at the beginning of my output, this bug is further discussed in the readme.
+		printf("%s->%ll\n", unicodestr, list[i].counter);
 		}
 	}
 
@@ -54,6 +58,7 @@ void printinput(struct UTFchar *list, long long counter) { //this function will 
 
 int program() { //this is the function that will do almost all of the work 
 
+	//declare all my variables
 	char tempbyte;	
 	unsigned char onebyte;
 	unsigned char twobyte;
@@ -61,16 +66,19 @@ int program() { //this is the function that will do almost all of the work
 	unsigned char fourbyte;
 	int bytecount;
 	long long counter = 1;
+	
 	//create a dynamically sized array of Unichars using malloc with BIGNUM
 	struct UTFchar *head = (malloc(sizeof(Unichar)*BIG_NUMBER)); // this is the array of characters
-	memset(head, 0, sizeof(head));
+	memset(head, 0, sizeof(head)); //we initialize all of the slots in the array to 0.
 
-	//reads in first character from file
+	//reads in first character from file into a signed char, we need it to be signed so while loop conditional will work correctly
 	tempbyte = fgetc(stdin); 
 
         //this loop will scan in the rest of the bytes associtated with the current character
 	while (tempbyte != EOF) {
-		onebyte = tempbyte;
+		onebyte = tempbyte; //assigning tempbyte to onebyte changes the value to unsigned char, which allows us to output the correct characters
+	
+	//all of the if/else-if/else conditionals below are used to compare the current byte with the decimal value of 1111,1110,110. We do this to determine how many bytes we need to the character, as explained by the decimal approach in the readme.
 	if (onebyte >= 240) {
 		bytecount = 4;
 		twobyte = (unsigned char)fgetc(stdin);	
@@ -168,8 +176,8 @@ int program() { //this is the function that will do almost all of the work
 
 	//we have now read in all the characters now we need to sort and output
 	
-	qsort(head, counter, sizeof(Unichar), compf); //sort the array
-	printinput(head, counter); //print the array
+	qsort(head, counter, sizeof(Unichar), compf); //sort the array/list using qsort() which uses the comparator function compf() to assist with sorting
+	printinput(head, counter); //print the array/list
 	
 	return 0;
 }
