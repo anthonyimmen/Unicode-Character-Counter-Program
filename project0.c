@@ -32,6 +32,44 @@ int compf(const void * a, const void * b) {
 
 }
 
+struct UTFchar * sortinput(struct UTFchar *list, long long counter) { //this function will sort the current array indescending order	
+	struct UTFchar *temp = list;
+	struct UTFchar *tempi;
+	struct UTFchar *tempj;
+	for (int i = 0; i < counter; ++i) {	
+		tempi = list+i;
+		for (int j = i + 1; j < counter; ++j) {
+			tempj = list+j;
+			if (tempi->counter < tempj->counter) { //this includes char of same count right next to each other
+				
+				//this sections swaps the bytes with each, this is done to sort the list. It will not work just by interchanging the structs
+				//flips temp and tempi
+				temp->counter = tempi->counter; 
+				temp->bytes1 = tempi->bytes1;
+				temp->bytes2 = tempi->bytes2;
+				temp->bytes3 = tempi->bytes3;
+				temp->bytes4 = tempi->bytes4;
+				
+				//flips tempi and tempj
+				tempi->counter = tempj->counter;
+				tempi->bytes1 = tempj->bytes1;
+				tempi->bytes2 = tempj->bytes2;
+				tempi->bytes3 = tempj->bytes3;
+				tempi->bytes4 = tempj->bytes4;
+				
+				//flips tempj and temp
+				tempj->counter = temp->counter;
+				tempj->bytes1 = temp->bytes1;
+				tempj->bytes2 = temp->bytes2;
+				tempj->bytes3 = temp->bytes3;
+				tempj->bytes4 = temp->bytes4;
+
+			}	
+		}
+	}
+	return temp;
+}
+
 
 void printinput(struct UTFchar *list, long long counter) { //this function will print the output in the specifed format
 	printf("this is counter: %llu\n", counter);
