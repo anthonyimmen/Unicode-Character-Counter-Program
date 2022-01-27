@@ -12,7 +12,7 @@ For approaches to complete this project, there were three that I thought about a
 
 There is currently one known bug in my code that I made a work-around for. The bug is that during the output before my correct output "->0" this is outputted to the console. This is not correct, and I was unsure why it was occuring after analyzing my code throughly. In order to make it work correctly, I created a check in the printinput() function that checks if the counter variable in the current stuct != 0. Thus, by including that peice of code, I was able to skip that line and have a correct output. 
 
-##Brief description of functions:
+## Brief description of functions:
 
 compf() - this function is used as a comparator function for qsort. It is passed into qsort to compare. If b is greater than a, then we return a positive number, and if its not then we return a negative number.
 
