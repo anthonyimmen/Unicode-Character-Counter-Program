@@ -1,4 +1,4 @@
-# Character Counter Program 
+# Unicode Character Counter Program 
 
 In order to run the code you need to download all of the files into a folder. Open the folder in terminal, enter make clean, make all, then './project0 << test2' or 'cat test2 | ./project0'.
 
